@@ -154,10 +154,10 @@ function initSignaturePad() {
       for (var i=0; i<data.length; i++) {
         count += data[i].length;
       }
-      if (5 < count && count < 50) {
+      if (5 < count && count < 100) {
         var replies = predict(this._canvas, data.length, count);
         if (isEqual(answers, replies)) {
-          new Audio('mp3/correct3.mp3').play();
+          correctAudio.play();
           scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
           generateData();
         }
@@ -201,7 +201,7 @@ function getAccuracyScores(imageData) {
   return score;
 }
 
-const kakusus = [1, 1, 1, 1, 2, 2, 1, 2, 1, 1];
+const kakusus = [1, 1, 1, 1, 2, 2, 1, 2, 1, 1];  // japanese style
 function predict(canvas, kaku, count) {
   var canvases = document.getElementById('canvases').getElementsByTagName('canvas');
   var predicts = new Array(3).fill(' ');
@@ -212,8 +212,10 @@ function predict(canvas, kaku, count) {
   var data = imageData.data;
   var accuracyScores = getAccuracyScores(imageData);
   var klass = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-  if (klass != 1 && count < 10) {
-    maxAccuracy = ' ';
+  if (klass != 1 && count < 15) {
+    klass = '';
+  } else if (kaku < kakusus[klass]) {  // 画数が足りないものは不正解とする
+    klass = '';
   }
   canvas.dataset.predict = klass;
   predicts[parseInt(canvas.getAttribute('id').slice(-1))] = klass.toString();
@@ -221,11 +223,19 @@ function predict(canvas, kaku, count) {
 }
 
 
+const correctAudio = new Audio('mp3/correct3.mp3');
+correctAudio.volume = 0;
+window.onclick = function() {
+  correctAudio.play();
+  correctAudio.pause();
+  correctAudio.volume = 1;
+  window.onclick = void(0);
+}
+
 let model;
 (async() => {
   initSignaturePad();
   generateData();
-  // model = await tf.loadLayersModel('/tegaki-de-anzan/model/model.json');
   model = await tf.loadLayersModel('model/model.json');
 })();
 
