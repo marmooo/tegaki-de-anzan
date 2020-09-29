@@ -1,9 +1,13 @@
-var CACHE_NAME = '2020-09-13 01:10';
+var CACHE_NAME = '2020-09-29 10:00';
 var urlsToCache = [
   '/tegaki-de-anzan/',
   '/tegaki-de-anzan/index.js',
   '/tegaki-de-anzan/model/model.json',
-  '/tegaki-de-anzan/model/group1-shard1of1.bin',
+  '/tegaki-de-anzan/model/group1-shard1of2.bin',
+  '/tegaki-de-anzan/model/group1-shard2of2.bin',
+  '/tegaki-de-anzan/mp3/incorrect1.mp3',
+  '/tegaki-de-anzan/mp3/end.mp3',
+  '/tegaki-de-anzan/mp3/correct3.mp3',
   'https://marmooo.github.io/fonts/textar-light.woff2',
   'https://marmooo.github.io/fonts/textar-light.woff',
   'https://marmooo.github.io/fonts/textar-light.ttf',
