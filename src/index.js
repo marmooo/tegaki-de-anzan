@@ -154,8 +154,8 @@ function initSignaturePad() {
       for (var i=0; i<data.length; i++) {
         count += data[i].length;
       }
-      if (10 < count && count < 50) {
-        var replies = predict(this._canvas, data.length);
+      if (5 < count && count < 50) {
+        var replies = predict(this._canvas, data.length, count);
         if (isEqual(answers, replies)) {
           new Audio('mp3/correct3.mp3').play();
           scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
@@ -202,7 +202,7 @@ function getAccuracyScores(imageData) {
 }
 
 const kakusus = [1, 1, 1, 1, 2, 2, 1, 2, 1, 1];
-function predict(canvas, kaku) {
+function predict(canvas, kaku, count) {
   var canvases = document.getElementById('canvases').getElementsByTagName('canvas');
   var predicts = new Array(3).fill(' ');
   for (var i=0; i<canvases.length; i++) {
@@ -211,12 +211,12 @@ function predict(canvas, kaku) {
   var imageData = getImageData(canvas);
   var data = imageData.data;
   var accuracyScores = getAccuracyScores(imageData);
-  var maxAccuracy = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-  if (kaku < kakusus[maxAccuracy]) {  // 画数が足りないものは不正解とする
+  var klass = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
+  if (klass != 1 && count < 10) {
     maxAccuracy = ' ';
   }
-  canvas.dataset.predict = maxAccuracy;
-  predicts[parseInt(canvas.getAttribute('id').slice(-1))] = maxAccuracy.toString();
+  canvas.dataset.predict = klass;
+  predicts[parseInt(canvas.getAttribute('id').slice(-1))] = klass.toString();
   return predicts;
 }
 
