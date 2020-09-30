@@ -147,6 +147,7 @@ function initSignaturePad() {
       maxWidth: 5,
       penColor: 'black',
       backgroundColor: 'white',
+      throttle: 0,
     });
     signaturePad.onEnd = function() {
       var data = signaturePad.toData();
