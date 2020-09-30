@@ -117,7 +117,7 @@ function countdown() {
   clearTimeout(countdownTimer);
   gameStart.classList.remove('d-none');
   playPanel.classList.add('d-none');
-  // scorePanel.classList.add('d-none');
+  scorePanel.classList.add('d-none');
   var counter = document.getElementById('counter');
   counter.innerText = 3;
   countdownTimer = setInterval(function(){
