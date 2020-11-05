@@ -240,3 +240,16 @@ let model;
   model = await tf.loadLayersModel('model/model.json');
 })();
 
+// https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
+// 手を置いた時の誤爆を防ぎつつスクロールは許可
+document.body.addEventListener("touchstart", function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive:false });
+document.body.addEventListener("touchmove", function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive:false });
+

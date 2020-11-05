@@ -17,4 +17,4 @@ const kakusus=[1,1,1,1,2,2,1,2,1,1];function predict(canvas,kaku,count){var canv
 var imageData=getImageData(canvas);var data=imageData.data;var accuracyScores=getAccuracyScores(imageData);var klass=accuracyScores.indexOf(Math.max.apply(null,accuracyScores));if(klass!=1&&count<15){klass='';}else if(kaku<kakusus[klass]){klass='';}
 canvas.dataset.predict=klass;predicts[parseInt(canvas.getAttribute('id').slice(-1))]=klass.toString();return predicts;}
 const correctAudio=new Audio('mp3/correct3.mp3');correctAudio.volume=0;window.onclick=function(){correctAudio.play();correctAudio.pause();correctAudio.volume=1;window.onclick=void(0);}
-let model;(async()=>{initSignaturePad();generateData();model=await tf.loadLayersModel('model/model.json');})();
+let model;(async()=>{initSignaturePad();generateData();model=await tf.loadLayersModel('model/model.json');})();document.body.addEventListener("touchstart",function(e){if(e.touches&&e.touches.length>1){e.preventDefault();}},{passive:false});document.body.addEventListener("touchmove",function(e){if(e.touches&&e.touches.length>1){e.preventDefault();}},{passive:false});

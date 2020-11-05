@@ -1,4 +1,4 @@
-var CACHE_NAME = '2020-09-30 21:30';
+var CACHE_NAME = '2020-11-05 22:30';
 var urlsToCache = [
   '/tegaki-de-anzan/',
   '/tegaki-de-anzan/index.js',
@@ -11,7 +11,7 @@ var urlsToCache = [
   'https://marmooo.github.io/fonts/textar-light.woff2',
   'https://marmooo.github.io/fonts/textar-light.woff',
   'https://marmooo.github.io/fonts/textar-light.ttf',
-  'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css',
   'https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js',
   'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js',
 ];
