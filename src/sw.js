@@ -1,4 +1,4 @@
-var CACHE_NAME = '2020-11-05 22:30';
+var CACHE_NAME = '2020-11-23 11:30';
 var urlsToCache = [
   '/tegaki-de-anzan/',
   '/tegaki-de-anzan/index.js',

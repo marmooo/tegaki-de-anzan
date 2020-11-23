@@ -59,33 +59,35 @@
     </style>
   </head>
   <body>
-    <nav id="header" class="navbar navbar-expand">
-      <div class="container">
-        <a class="navbar-brand" href="/tegaki-de-anzan/">
-          <ruby>手書<rp>(</rp><rt>てが</rt><rp>)</rp></ruby>きde<ruby>暗算<rp>(</rp><rt>あんざん</rt><rp>)</rp></ruby>
-        </a>
-        <div class="navbar-nav">
-          <select id="type" class="form-control form-control-sm">
-            <option selected>全部</option>
-            <option>＋</option>
-            <option>ー</option>
-            <option>×</option>
-            <option>÷</option>
-          </select>
-          <select id="grade" class="ml-1 form-control form-control-sm">
-            <option>小1</option>
-            <option>小2</option>
-            <option>小3</option>
-            <option selected>小4</option>
-            <option>小5</option>
-            <option>小6</option>
-            <option>中学〜</option>
-          </select>
-          <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+    <header id="header">
+      <nav class="navbar navbar-expand">
+        <div class="container">
+          <a class="navbar-brand" href="/tegaki-de-anzan/">
+            <ruby>手書<rp>(</rp><rt>てが</rt><rp>)</rp></ruby>きde<ruby>暗算<rp>(</rp><rt>あんざん</rt><rp>)</rp></ruby>
+          </a>
+          <div class="navbar-nav">
+            <select id="type" class="form-control form-control-sm" aria-label="コース">
+              <option selected>全部</option>
+              <option>＋</option>
+              <option>ー</option>
+              <option>×</option>
+              <option>÷</option>
+            </select>
+            <select id="grade" class="ml-1 form-control form-control-sm" aria-label="学年">
+              <option>小1</option>
+              <option>小2</option>
+              <option>小3</option>
+              <option selected>小4</option>
+              <option>小5</option>
+              <option>小6</option>
+              <option>中学〜</option>
+            </select>
+            <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+          </div>
         </div>
-      </div>
-    </nav>
-    <div class="container mx-md-auto pb-4">
+      </nav>
+    </header>
+    <main class="container mx-md-auto pb-4">
       <div id="gameStart" class="text-center d-none">
         <div id="countdown">
           <div id="counter">3</div>
@@ -186,7 +188,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
     <footer class="pt-4 alert text-center">
       <div>
         <a class="px-1" href="/">Home</a>
