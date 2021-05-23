@@ -39,11 +39,11 @@ function getNumRange(grade) {
 
 let answers = new Array(3);
 function generateData() {
-  var grade = document.getElementById('grade').selectedIndex + 1;
-  var type = document.getElementById('type').selectedIndex - 1;
-  var range = getNumRange(grade);
+  const grade = document.getElementById('gradeOption').selectedIndex + 1;
+  const course = document.getElementById('courseOption').selectedIndex - 1;
+  const range = getNumRange(grade);
   let a, b, c, x, s;
-  if (type < 0) {
+  if (course < 0) {
     if (grade == 1) {
       s = Math.floor(Math.random() * 2);
     } else if (grade == 2) {
@@ -52,7 +52,7 @@ function generateData() {
       s = Math.floor(Math.random() * 4);
     }
   } else {
-    s = type;
+    s = course;
   }
   switch(s) {
     case 0:

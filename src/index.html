@@ -29,9 +29,9 @@
     <meta name="application-name" content="手書きde暗算">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <style>
-      .tile { width:84px; padding-bottom:1rem; line-height:1.1rem; }
+      .tile { width:84px; padding-bottom:1rem; line-height:1.1rem; padding:.25rem; }
       @font-face {
         font-family: textar-light;
         src: url('https://marmooo.github.io/fonts/textar-light.woff2') format('woff2');
@@ -65,14 +65,14 @@
             <ruby>手書<rp>(</rp><rt>てが</rt><rp>)</rp></ruby>きde<ruby>暗算<rp>(</rp><rt>あんざん</rt><rp>)</rp></ruby>
           </a>
           <div class="navbar-nav">
-            <select id="type" class="form-control form-control-sm" aria-label="コース">
+            <select id="courseOption" class="form-select form-select-sm" aria-label="コース">
               <option selected>全部</option>
               <option>＋</option>
               <option>ー</option>
               <option>×</option>
               <option>÷</option>
             </select>
-            <select id="grade" class="ml-1 form-control form-control-sm" aria-label="学年">
+            <select id="gradeOption" class="form-select form-select-sm ms-1" aria-label="学年">
               <option>小1</option>
               <option>小2</option>
               <option>小3</option>
@@ -81,7 +81,7 @@
               <option>小6</option>
               <option>中学〜</option>
             </select>
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="ml-2 close">🌓</button>
+            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
       </nav>
