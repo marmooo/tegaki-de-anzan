@@ -1,3 +1,4 @@
+const canvases = document.getElementById('canvases').getElementsByTagName('canvas');
 let endAudio, correctAudio;
 loadAudios();
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -136,7 +137,6 @@ function generateData() {
   num.innerText = `${a}${x}${b}＝`;
   var cStr = ('   ' + c).slice(-3);  // whitespae padding
   answers = cStr.split('');
-  var canvases = document.getElementById('canvases').getElementsByTagName('canvas');
   for (var i=0; i<canvases.length; i++) {
     canvases[i].dataset.predict = ' ';
     signaturePads[i].clear();
@@ -189,8 +189,6 @@ function countdown() {
 
 let signaturePads = [];
 function initSignaturePad() {
-  const canvases = document.getElementById('canvases').getElementsByTagName('canvas');
-  const scoreObj = document.getElementById('score');
   for (var i=0; i<canvases.length; i++) {
     const signaturePad = new SignaturePad(canvases[i], {
       minWidth: 5,
@@ -206,12 +204,8 @@ function initSignaturePad() {
         count += data[i].length;
       }
       if (5 < count && count < 100) {
-        var replies = predict(this._canvas, data.length, count);
-        if (isEqual(answers, replies)) {
-          playAudio(correctAudio);
-          scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
-          generateData();
-        }
+        const pos = [...canvases].indexOf(this._canvas);
+        predict(this._canvas, pos, data.length, count);
       }
     };
     signaturePads.push(signaturePad);
@@ -240,47 +234,41 @@ function getImageData(drawElement) {
   return imageData;
 }
 
-function getAccuracyScores(imageData) {
-  const score = tf.tidy(() => {
-    const channels = 1;
-    let input = tf.browser.fromPixels(imageData, channels);
-    input = tf.cast(input, 'float32').div(tf.scalar(255));
-    // input = input.flatten();  // mlp
-    input = input.expandDims();
-    return model.predict(input).dataSync();
-  });
-  return score;
-}
-
 const kakusus = [1, 1, 1, 1, 2, 2, 1, 2, 1, 1];  // japanese style
-function predict(canvas, kaku, count) {
-  var canvases = document.getElementById('canvases').getElementsByTagName('canvas');
+function getReplies(predicted) {
+  var canvas = canvases[predicted.pos];
   var predicts = new Array(3).fill(' ');
   for (var i=0; i<canvases.length; i++) {
     predicts[i] = canvases[i].dataset.predict;
   }
-  var imageData = getImageData(canvas);
-  var data = imageData.data;
-  var accuracyScores = getAccuracyScores(imageData);
-  var klass = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-  if (klass != 1 && count < 15) {
-    klass = '';
-  } else if (kaku < kakusus[klass]) {  // 画数が足りないものは不正解とする
-    klass = '';
+  if (predicted.klass != 1 && predicted.count < 15) {
+    predicted.klass = '';
+  } else if (predicted.kaku < kakusus[predicted.klass]) {  // 画数が足りないものは不正解とする
+    predicted.klass = '';
   }
-  canvas.dataset.predict = klass;
-  predicts[parseInt(canvas.getAttribute('id').slice(-1))] = klass.toString();
+  canvas.dataset.predict = predicted.klass;
+  predicts[parseInt(canvas.getAttribute('id').slice(-1))] = predicted.klass.toString();
   return predicts;
 }
 
+function predict(canvas, pos, kaku, count) {
+  const imageData = getImageData(canvas);
+  worker.postMessage({ pos:pos, imageData:imageData, kaku:kaku, count:count });
+}
 
-let model;
-(async() => {
-  initSignaturePad();
-  generateData();
-  model = await tf.loadLayersModel('model/model.json');
-  predict(signaturePads[0]._canvas, 0, 0);
-})();
+
+const worker = new Worker('worker.js');
+worker.addEventListener('message', function(e) {
+  var replies = getReplies(e.data);
+  if (isEqual(answers, replies)) {
+    playAudio(correctAudio);
+    const scoreObj = document.getElementById('score');
+    scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
+    generateData();
+  }
+});
+initSignaturePad();
+generateData();
 
 // https://webinlet.com/2020/ios11以降でピンチインアウト拡大縮小禁止
 // 手を置いた時の誤爆を防ぎつつスクロールは許可
