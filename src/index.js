@@ -201,11 +201,11 @@ function initSignaturePad() {
       var data = signaturePad.toData();
       var count = 0;
       for (var i=0; i<data.length; i++) {
-        count += data[i].length;
+        count += data[i].points.length;
       }
       if (5 < count && count < 100) {
-        const pos = [...canvases].indexOf(this._canvas);
-        predict(this._canvas, pos, data.length, count);
+        const pos = [...canvases].indexOf(this.canvas);
+        predict(this.canvas, pos, data.length, count);
       }
     };
     signaturePads.push(signaturePad);

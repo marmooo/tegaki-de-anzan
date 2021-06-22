@@ -8,9 +8,9 @@ var urlsToCache = [
   '/tegaki-de-anzan/mp3/incorrect1.mp3',
   '/tegaki-de-anzan/mp3/end.mp3',
   '/tegaki-de-anzan/mp3/correct3.mp3',
+  '/tegaki-de-anzan/signature_pad.umd.min.js',
   'https://marmooo.github.io/fonts/textar-light.woff2',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js',
   'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js',
 ];
 
