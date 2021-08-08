@@ -1,3 +1,4 @@
+const infoPanel = document.getElementById('infoPanel');
 const canvases = document.getElementById('canvases').getElementsByTagName('canvas');
 let endAudio, correctAudio;
 loadAudios();
@@ -156,7 +157,7 @@ function startGameTimer() {
     } else {
       clearInterval(gameTimer);
       playAudio(endAudio);
-      playPanel.classList.add('d-none');
+      infoPanel.classList.add('d-none');
       scorePanel.classList.remove('d-none');
     }
   }, 1000);
@@ -166,7 +167,7 @@ let countdownTimer;
 function countdown() {
   clearTimeout(countdownTimer);
   gameStart.classList.remove('d-none');
-  playPanel.classList.add('d-none');
+  infoPanel.classList.add('d-none');
   scorePanel.classList.add('d-none');
   var counter = document.getElementById('counter');
   counter.innerText = 3;
@@ -179,7 +180,7 @@ function countdown() {
     } else {
       clearTimeout(countdownTimer);
       gameStart.classList.add('d-none');
-      playPanel.classList.remove('d-none');
+      infoPanel.classList.remove('d-none');
       document.getElementById('score').innerText = 0;
       generateData();
       startGameTimer();
