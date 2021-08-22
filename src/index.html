@@ -82,7 +82,7 @@
               <option>小6</option>
               <option>中学〜</option>
             </select>
-            <button title="ダークモード切替" onclick="toggleDarkMode()" class="fs-4 btn p-0 ms-1">🌓</button>
+            <button title="ダークモード切替" id="toggleDarkMode" class="fs-4 btn p-0 ms-1">🌓</button>
           </div>
         </div>
       </nav>
@@ -116,9 +116,9 @@
           <ruby>問<rp>(</rp><rt>もん</rt><rp>)</rp></ruby>！
         </div>
         <a id="twitter" target="_blank" href="https://twitter.com/intent/tweet?text=手書きde暗算で遊んだよ!&url=https%3a%2f%2fmarmooo.github.com/tegaki-de-anzan%2f&hashtags=手書きde暗算" class="btn btn-primary btn-lg m-1" role="button">Twitter でつぶやく</a>
-        <button onclick="countdown()" type="button" class="btn btn-primary btn-lg m-1">リスタート</button>
+        <button id="restartButton" type="button" class="btn btn-primary btn-lg m-1">リスタート</button>
       </div>
-      <div id="playPanel">
+      <div id="infoPanel">
         <div class="row">
           <div class="col-sm">
             <div id="introduction" class="d-flex">
@@ -140,7 +140,7 @@
                 <label><ruby>時間<rp>(</rp><rt>じかん</rt><rp>)</rp></ruby>:</label>
                 <span id="time" class="ms-1">180秒 / 180秒</span>
               </div>
-              <button onclick="countdown()" type="button" class="btn btn-primary btn-lg">スタート</button>
+              <button id="startButton" type="button" class="btn btn-primary btn-lg">スタート</button>
             </div>
           </div>
         </div>
