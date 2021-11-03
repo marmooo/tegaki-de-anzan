@@ -1,3 +1,4 @@
+let hinted = false;
 const infoPanel = document.getElementById("infoPanel");
 const scorePanel = document.getElementById("scorePanel");
 const canvases = [
@@ -103,6 +104,7 @@ function getNumRange(grade) {
 }
 
 function generateData() {
+  hint = false;
   const grade = document.getElementById("gradeOption").selectedIndex + 1;
   const course = document.getElementById("courseOption").selectedIndex - 1;
   const range = getNumRange(grade);
@@ -276,18 +278,28 @@ function predict(canvas, pos, kaku, count) {
   });
 }
 
+function showAnswer() {
+  if (!hinted) {
+    hinted = true;
+    document.getElementById("num").textContent += answers.join("");
+  }
+}
+
 const worker = new Worker("worker.js");
 worker.addEventListener("message", function (e) {
   const replies = getReplies(e.data);
   if (isEqual(answers, replies)) {
     playAudio(correctAudio);
     const scoreObj = document.getElementById("score");
-    scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
+    if (!hinted) {
+      scoreObj.innerText = parseInt(scoreObj.innerText) + 1;
+    }
     generateData();
   }
 });
 generateData();
 
+document.getElementById("hint").onclick = showAnswer;
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("startButton").onclick = countdown;
 document.getElementById("restartButton").onclick = countdown;
