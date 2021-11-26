@@ -6,7 +6,7 @@ const canvases = [
     "canvas",
   ),
 ];
-const signaturePads = initSignaturePads(canvases);
+const pads = initSignaturePads(canvases);
 let answers = new Array(3);
 let endAudio, correctAudio;
 loadAudios();
@@ -154,7 +154,7 @@ function generateData() {
   answers = cStr.split("");
   for (let i = 0; i < canvases.length; i++) {
     canvases[i].dataset.predict = " ";
-    signaturePads[i].clear();
+    pads[i].clear();
   }
 }
 
@@ -206,15 +206,15 @@ function initSignaturePads(canvases) {
   const pads = [];
   for (let i = 0; i < canvases.length; i++) {
     const canvas = canvases[i];
-    const signaturePad = new SignaturePad(canvas, {
+    const pad = new SignaturePad(canvas, {
       minWidth: 5,
       maxWidth: 5,
       penColor: "black",
       backgroundColor: "white",
       throttle: 0,
     });
-    signaturePad.onEnd = function () {
-      const data = signaturePad.toData();
+    pad.addEventListener("endStroke", function() {
+      const data = pad.toData();
       let count = 0;
       for (let i = 0; i < data.length; i++) {
         count += data[i].points.length;
@@ -223,13 +223,13 @@ function initSignaturePads(canvases) {
         const pos = canvases.indexOf(this.canvas);
         predict(this.canvas, pos, data.length, count);
       }
-    };
+    });
     const eraser = canvas.nextElementSibling;
-    eraser.onclick = function () {
-      signaturePad.clear();
+    eraser.onclick = () => {
+      pad.clear();
       canvas.dataset.predict = " ";
     };
-    pads.push(signaturePad);
+    pads.push(pad);
   }
   return pads;
 }
