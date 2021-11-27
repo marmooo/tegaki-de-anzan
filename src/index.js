@@ -213,15 +213,15 @@ function initSignaturePads(canvases) {
       backgroundColor: "white",
       throttle: 0,
     });
-    pad.addEventListener("endStroke", function() {
+    pad.addEventListener("endStroke", () => {
       const data = pad.toData();
       let count = 0;
       for (let i = 0; i < data.length; i++) {
         count += data[i].points.length;
       }
       if (5 < count && count < 100) {
-        const pos = canvases.indexOf(this.canvas);
-        predict(this.canvas, pos, data.length, count);
+        const pos = canvases.indexOf(pad.canvas);
+        predict(pad.canvas, pos, data.length, count);
       }
     });
     const eraser = canvas.nextElementSibling;
