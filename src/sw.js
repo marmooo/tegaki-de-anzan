@@ -1,4 +1,4 @@
-var CACHE_NAME = '2021-11-27 10:30';
+var CACHE_NAME = '2021-12-13 22:55';
 var urlsToCache = [
   "/tegaki-de-anzan/",
   "/tegaki-de-anzan/index.js",
@@ -8,10 +8,10 @@ var urlsToCache = [
   "/tegaki-de-anzan/mp3/end.mp3",
   "/tegaki-de-anzan/mp3/correct3.mp3",
   "/tegaki-de-anzan/favicon/original.svg",
+  "/tegaki-de-anzan/signature_pad.umd.min.js",
   "https://marmooo.github.io/fonts/textar-light.woff2",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js",
 ];
 
 self.addEventListener("install", function (event) {
