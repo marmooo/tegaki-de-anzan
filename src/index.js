@@ -1,5 +1,6 @@
 let hinted = false;
 const infoPanel = document.getElementById("infoPanel");
+const playPanel = document.getElementById("playPanel");
 const scorePanel = document.getElementById("scorePanel");
 const canvases = [
   ...document.getElementById("canvases").getElementsByTagName(
@@ -8,7 +9,7 @@ const canvases = [
 ];
 const pads = initSignaturePads(canvases);
 let answers = new Array(3);
-let endAudio, correctAudio;
+let endAudio, incorrectAudio, correctAudio;
 loadAudios();
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
@@ -66,11 +67,13 @@ function loadAudio(url) {
 function loadAudios() {
   promises = [
     loadAudio("mp3/end.mp3"),
+    loadAudio("mp3/incorrect1.mp3"),
     loadAudio("mp3/correct3.mp3"),
   ];
   Promise.all(promises).then((audioBuffers) => {
     endAudio = audioBuffers[0];
-    correctAudio = audioBuffers[1];
+    incorrectAudio = audioBuffers[1];
+    correctAudio = audioBuffers[2];
   });
 }
 
@@ -282,6 +285,12 @@ function showAnswer() {
   if (!hinted) {
     hinted = true;
     document.getElementById("num").textContent += answers.join("");
+    playAudio(incorrectAudio);
+    playPanel.style.pointerEvents = "none";
+    setTimeout(() => {
+      generateData();
+      playPanel.style.pointerEvents = "auto";
+    }, 3000);
   }
 }
 
