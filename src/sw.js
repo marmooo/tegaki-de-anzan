@@ -1,4 +1,4 @@
-var CACHE_NAME = '2022-03-28 20:30';
+var CACHE_NAME = '2022-04-05 00:14';
 var urlsToCache = [
   "/tegaki-de-anzan/",
   "/tegaki-de-anzan/index.js",
@@ -9,7 +9,7 @@ var urlsToCache = [
   "/tegaki-de-anzan/mp3/correct3.mp3",
   "/tegaki-de-anzan/favicon/original.svg",
   "https://marmooo.github.io/fonts/textar-light.woff2",
-  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.3/dist/signature_pad.umd.min.js",
+  "https://cdn.jsdelivr.net/npm/signature_pad@4.0.4/dist/signature_pad.umd.min.js",
   "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
   "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0/dist/tf.min.js",
 ];
