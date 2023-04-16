@@ -178,7 +178,7 @@ function countdown() {
   scorePanel.classList.add("d-none");
   const counter = document.getElementById("counter");
   counter.textContent = 3;
-  countdownTimer = setInterval(function () {
+  countdownTimer = setInterval(() => {
     const colors = ["skyblue", "greenyellow", "violet", "tomato"];
     if (parseInt(counter.textContent) > 1) {
       const t = parseInt(counter.textContent) - 1;
@@ -285,8 +285,8 @@ function showAnswer() {
 }
 
 const worker = new Worker("worker.js");
-worker.addEventListener("message", function (e) {
-  const replies = getReplies(e.data);
+worker.addEventListener("message", (event) => {
+  const replies = getReplies(event.data);
   if (isEqual(answers, replies)) {
     playAudio("correct");
     const scoreObj = document.getElementById("score");
