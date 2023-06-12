@@ -1,9 +1,7 @@
-let hinted = false;
 const countPanel = document.getElementById("countPanel");
 const infoPanel = document.getElementById("infoPanel");
 const playPanel = document.getElementById("playPanel");
 const scorePanel = document.getElementById("scorePanel");
-const gameTime = 180;
 const canvases = [
   ...document.getElementById("canvases").getElementsByTagName(
     "canvas",
@@ -12,7 +10,11 @@ const canvases = [
 const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
 const pads = initSignaturePads(canvases);
+const gameTime = 180;
+let gameTimer;
 let answers = new Array(3);
+let hinted = false;
+let correctCount = 0;
 const audioContext = new AudioContext();
 const audioBufferCache = {};
 loadAudio("end", "mp3/end.mp3");
@@ -149,9 +151,38 @@ function generateData() {
   }
 }
 
-let gameTimer;
-function startGameTimer() {
+function countdown() {
+  correctCount = 0;
+  countPanel.classList.remove("d-none");
+  infoPanel.classList.add("d-none");
+  playPanel.classList.add("d-none");
+  scorePanel.classList.add("d-none");
+  const counter = document.getElementById("counter");
+  counter.textContent = 3;
+  const timer = setInterval(() => {
+    const colors = ["skyblue", "greenyellow", "violet", "tomato"];
+    if (parseInt(counter.textContent) > 1) {
+      const t = parseInt(counter.textContent) - 1;
+      counter.style.backgroundColor = colors[t];
+      counter.textContent = t;
+    } else {
+      clearTimeout(timer);
+      countPanel.classList.add("d-none");
+      infoPanel.classList.remove("d-none");
+      playPanel.classList.remove("d-none");
+      generateData();
+      startGameTimer();
+    }
+  }, 1000);
+}
+
+function startGame() {
   clearInterval(gameTimer);
+  initTime();
+  countdown();
+}
+
+function startGameTimer() {
   const timeNode = document.getElementById("time");
   initTime();
   gameTimer = setInterval(() => {
@@ -161,8 +192,9 @@ function startGameTimer() {
     } else {
       clearInterval(gameTimer);
       playAudio("end");
-      infoPanel.classList.add("d-none");
+      playPanel.classList.add("d-none");
       scorePanel.classList.remove("d-none");
+      scoring();
     }
   }, 1000);
 }
@@ -171,29 +203,8 @@ function initTime() {
   document.getElementById("time").textContent = gameTime;
 }
 
-let countdownTimer;
-function countdown() {
-  clearTimeout(countdownTimer);
-  countPanel.classList.remove("d-none");
-  infoPanel.classList.add("d-none");
-  scorePanel.classList.add("d-none");
-  const counter = document.getElementById("counter");
-  counter.textContent = 3;
-  countdownTimer = setInterval(() => {
-    const colors = ["skyblue", "greenyellow", "violet", "tomato"];
-    if (parseInt(counter.textContent) > 1) {
-      const t = parseInt(counter.textContent) - 1;
-      counter.style.backgroundColor = colors[t];
-      counter.textContent = t;
-    } else {
-      clearTimeout(countdownTimer);
-      countPanel.classList.add("d-none");
-      infoPanel.classList.remove("d-none");
-      document.getElementById("score").textContent = 0;
-      generateData();
-      startGameTimer();
-    }
-  }, 1000);
+function scoring() {
+  document.getElementById("score").textContent = correctCount;
 }
 
 function initSignaturePads(canvases) {
@@ -276,10 +287,9 @@ function showAnswer() {
     hinted = true;
     document.getElementById("num").textContent += answers.join("");
     playAudio("incorrect");
-    playPanel.style.pointerEvents = "none";
     setTimeout(() => {
+      hinted = false;
       generateData();
-      playPanel.style.pointerEvents = "auto";
     }, 3000);
   }
 }
@@ -300,8 +310,8 @@ generateData();
 
 document.getElementById("hint").onclick = showAnswer;
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
-document.getElementById("startButton").onclick = countdown;
-document.getElementById("restartButton").onclick = countdown;
+document.getElementById("startButton").onclick = startGame;
+document.getElementById("restartButton").onclick = startGame;
 document.addEventListener("click", unlockAudio, {
   once: true,
   useCapture: true,
