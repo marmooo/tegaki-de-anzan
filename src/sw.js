@@ -11,7 +11,7 @@ const urlsToCache = [
   "/tegaki-de-anzan/favicon/favicon.svg",
   "https://marmooo.github.io/fonts/textar-light.woff2",
   "https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js",
-  "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.13.0/dist/tf.min.js",
+  "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.15.0/dist/tf.min.js",
 ];
 
 self.addEventListener("install", (event) => {
