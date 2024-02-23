@@ -2,11 +2,8 @@ const countPanel = document.getElementById("countPanel");
 const infoPanel = document.getElementById("infoPanel");
 const playPanel = document.getElementById("playPanel");
 const scorePanel = document.getElementById("scorePanel");
-const canvases = [
-  ...document.getElementById("canvases").getElementsByTagName(
-    "canvas",
-  ),
-];
+const canvases = document.getElementById("canvases")
+  .getElementsByTagName("canvas");
 const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
 const pads = initSignaturePads(canvases);
