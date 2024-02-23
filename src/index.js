@@ -299,10 +299,7 @@ worker.addEventListener("message", (event) => {
   const replies = getReplies(event.data);
   if (isEqual(answers, replies)) {
     playAudio("correct");
-    const scoreObj = document.getElementById("score");
-    if (!hinted) {
-      scoreObj.textContent = parseInt(scoreObj.textContent) + 1;
-    }
+    if (!hinted) correctCount += 1;
     generateData();
   }
 });
