@@ -286,7 +286,7 @@ function showAnswer() {
   if (!hinted) {
     hinted = true;
     document.getElementById("num").textContent += answers.join("");
-    playAudio("incorrect");
+    playAudio("incorrect", 0.3);
     setTimeout(() => {
       hinted = false;
       generateData();
@@ -298,7 +298,7 @@ const worker = new Worker("worker.js");
 worker.addEventListener("message", (event) => {
   const replies = getReplies(event.data);
   if (isEqual(answers, replies)) {
-    playAudio("correct");
+    playAudio("correct", 0.3);
     if (!hinted) correctCount += 1;
     generateData();
   }
