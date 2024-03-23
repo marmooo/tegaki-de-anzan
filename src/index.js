@@ -96,7 +96,7 @@ function getNumRange(grade) {
 }
 
 function generateData() {
-  hint = false;
+  hinted = false;
   const grade = document.getElementById("gradeOption").selectedIndex + 1;
   const course = document.getElementById("courseOption").selectedIndex - 1;
   const range = getNumRange(grade);
