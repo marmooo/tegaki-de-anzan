@@ -54,7 +54,7 @@
       #num { font-size: 5rem; }
       @media (max-width: 992px) { #num { font-size: 4rem; } }
       @media (max-width: 768px) { #num { font-size: 3rem; } }
-      canvas { -webkit-user-select:none; }
+      canvas { outline: 1px solid #000; -webkit-user-select:none; }
       html[data-bs-theme="dark"] .favicon { filter: invert(1) hue-rotate(180deg); }
       html[data-bs-theme="dark"] canvas { filter: invert(1) hue-rotate(180deg); }
     </style>
@@ -126,20 +126,20 @@
       <div id="playPanel" class="d-flex flex-wrap justify-content-center py-3">
         <div id="num" class="px-2 pb-3 notranslate">114＋514＝</div>
         <div id="canvases" class="d-flex px-2">
-          <div class="col p-0 text-center">
-            <canvas id="canvas0" width="90" height="120" class="border border-right-0 border-secondary d-block"></canvas>
+          <div class="text-center">
+            <canvas id="canvas0" width="90" height="120" class="d-block"></canvas>
             <button title="書き直し" class="eraser btn p-0" type="button">
               <svg width="32" height="32" viewBox="0 0 24 24"><use href="#eraser"/></svg>
             </button>
           </div>
-          <div class="col p-0 text-center">
-            <canvas id="canvas1" width="90" height="120" class="border border-right-0 border-secondary d-block"></canvas>
+          <div class="text-center">
+            <canvas id="canvas1" width="90" height="120" class="d-block"></canvas>
             <button title="書き直し" class="eraser btn p-0" type="button">
               <svg width="32" height="32" viewBox="0 0 24 24"><use href="#eraser"/></svg>
             </button>
           </div>
-          <div class="col p-0 text-center">
-            <canvas id="canvas2" width="90" height="120" class="border border-secondary d-block"></canvas>
+          <div class="text-center">
+            <canvas id="canvas2" width="90" height="120" class="d-block"></canvas>
             <button title="書き直し" class="eraser btn p-0" type="button">
               <svg width="32" height="32" viewBox="0 0 24 24"><use href="#eraser"/></svg>
             </button>
