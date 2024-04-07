@@ -4,8 +4,8 @@ const countPanel = document.getElementById("countPanel");
 const infoPanel = document.getElementById("infoPanel");
 const playPanel = document.getElementById("playPanel");
 const scorePanel = document.getElementById("scorePanel");
-const canvases = [...document.getElementById("canvases")
-  .getElementsByTagName("canvas")];
+const canvasContainer = document.getElementById("canvasContainer");
+const canvases = [...canvasContainer.getElementsByTagName("canvas")];
 const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
 const pads = initSignaturePads(canvases);
@@ -206,6 +206,12 @@ function scoring() {
   document.getElementById("score").textContent = correctCount;
 }
 
+function eraserEvent(pad) {
+  console.log(pad);
+  pad.clear();
+  pad.canvas.dataset.predict = " ";
+}
+
 function initSignaturePads(canvases) {
   const pads = [];
   for (let i = 0; i < canvases.length; i++) {
@@ -229,10 +235,11 @@ function initSignaturePads(canvases) {
       }
     });
     const eraser = canvas.nextElementSibling;
-    eraser.onclick = () => {
-      pad.clear();
-      canvas.dataset.predict = " ";
-    };
+    if (navigator.maxTouchPoints > 0) {
+      eraser.ontouchstart = () => eraserEvent(pad);
+    } else {
+      eraser.onclick = () => eraserEvent(pad);
+    }
     pads.push(pad);
   }
   return pads;
@@ -313,3 +320,21 @@ document.addEventListener("click", unlockAudio, {
   once: true,
   useCapture: true,
 });
+
+if (CSS.supports("-webkit-touch-callout: default")) { // iOS
+  // prevent double click zoom
+  document.addEventListener("dblclick", (event) => event.preventDefault());
+  // prevent text selection
+  const preventDefault = (event) => event.preventDefault();
+  const canvasContainer = document.getElementById("canvasContainer");
+  canvasContainer.addEventListener("touchstart", () => {
+    document.addEventListener("touchstart", preventDefault, {
+      passive: false,
+    });
+  });
+  canvasContainer.addEventListener("touchend", () => {
+    document.removeEventListener("touchstart", preventDefault, {
+      passive: false,
+    });
+  });
+}
