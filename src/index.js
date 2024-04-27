@@ -295,7 +295,7 @@ function predict(canvas, pos, kaku, count) {
 function showAnswer() {
   if (!hinted) {
     hinted = true;
-    document.getElementById("num").textContent += answers.join("");
+    document.getElementById("num").textContent += answers.join("").trimStart();
     playAudio("incorrect", 0.3);
     setTimeout(() => {
       hinted = false;
