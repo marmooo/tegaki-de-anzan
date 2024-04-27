@@ -13,7 +13,6 @@ const gameTime = 180;
 let gameTimer;
 let answers = new Array(3);
 let hinted = false;
-let firstRun = true;
 let correctCount = 0;
 const audioContext = new globalThis.AudioContext();
 const audioBufferCache = {};
@@ -151,7 +150,6 @@ function generateData() {
 }
 
 function countdown() {
-  if (firstRun) predict(pads[0].canvas, 0, 0, 0);
   countPanel.classList.remove("d-none");
   infoPanel.classList.add("d-none");
   playPanel.classList.add("d-none");
@@ -306,16 +304,12 @@ function showAnswer() {
 
 const worker = new Worker("worker.js");
 worker.addEventListener("message", (event) => {
-  if (firstRun) {
-    firstRun = false;
-  } else {
-    const replies = getReplies(event.data);
-    if (isEqual(answers, replies)) {
-      playAudio("correct", 0.3);
-      if (!hinted) correctCount += 1;
-      hinted = false;
-      generateData();
-    }
+  const replies = getReplies(event.data);
+  if (isEqual(answers, replies)) {
+    playAudio("correct", 0.3);
+    if (!hinted) correctCount += 1;
+    hinted = false;
+    generateData();
   }
 });
 generateData();
@@ -324,6 +318,9 @@ document.getElementById("hint").onclick = showAnswer;
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("startButton").onclick = startGame;
 document.getElementById("restartButton").onclick = startGame;
+document.addEventListener("pointerdown", () => {
+  predict(pads[0].canvas, 0, 0, 0);
+}, { once: true });
 document.addEventListener("click", unlockAudio, {
   once: true,
   useCapture: true,
