@@ -271,10 +271,10 @@ function getReplies(predicted) {
   }
   if (predicted.klass != 1 && predicted.count < 15) {
     // 短すぎる線は無視する
-    predicted.klass = "";
+    predicted.klass = " ";
   } else if (predicted.kaku < kakusus[predicted.klass]) {
     // 画数不足は不正解とする
-    predicted.klass = "";
+    predicted.klass = " ";
   }
   canvas.dataset.predict = predicted.klass;
   predicts[parseInt(canvas.getAttribute("id").slice(-1))] = predicted.klass
