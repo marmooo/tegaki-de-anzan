@@ -13,6 +13,7 @@ const gameTime = 180;
 let gameTimer;
 let answers = new Array(3);
 let hinted = false;
+let firstRun = true;
 let correctCount = 0;
 const audioContext = new globalThis.AudioContext();
 const audioBufferCache = {};
@@ -96,7 +97,6 @@ function getNumRange(grade) {
 }
 
 function generateData() {
-  hinted = false;
   const grade = document.getElementById("gradeOption").selectedIndex + 1;
   const course = document.getElementById("courseOption").selectedIndex - 1;
   const range = getNumRange(grade);
@@ -151,7 +151,7 @@ function generateData() {
 }
 
 function countdown() {
-  correctCount = 0;
+  if (firstRun) predict(pads[0].canvas, 0, 0, 0);
   countPanel.classList.remove("d-none");
   infoPanel.classList.add("d-none");
   playPanel.classList.add("d-none");
@@ -169,6 +169,8 @@ function countdown() {
       countPanel.classList.add("d-none");
       infoPanel.classList.remove("d-none");
       playPanel.classList.remove("d-none");
+      correctCount = 0;
+      hinted = false;
       generateData();
       startGameTimer();
     }
@@ -207,7 +209,6 @@ function scoring() {
 }
 
 function eraserEvent(pad) {
-  console.log(pad);
   pad.clear();
   pad.canvas.dataset.predict = " ";
 }
@@ -268,9 +269,11 @@ function getReplies(predicted) {
   for (let i = 0; i < canvases.length; i++) {
     predicts[i] = canvases[i].dataset.predict;
   }
+  // 短すぎる線は無視する
   if (predicted.klass != 1 && predicted.count < 15) {
     predicted.klass = "";
-  } else if (predicted.kaku < kakusus[predicted.klass]) { // 画数が足りないものは不正解とする
+    // 画数不足は不正解とする
+  } else if (predicted.kaku < kakusus[predicted.klass]) {
     predicted.klass = "";
   }
   canvas.dataset.predict = predicted.klass;
@@ -303,11 +306,16 @@ function showAnswer() {
 
 const worker = new Worker("worker.js");
 worker.addEventListener("message", (event) => {
-  const replies = getReplies(event.data);
-  if (isEqual(answers, replies)) {
-    playAudio("correct", 0.3);
-    if (!hinted) correctCount += 1;
-    generateData();
+  if (firstRun) {
+    firstRun = false;
+  } else {
+    const replies = getReplies(event.data);
+    if (isEqual(answers, replies)) {
+      playAudio("correct", 0.3);
+      if (!hinted) correctCount += 1;
+      hinted = false;
+      generateData();
+    }
   }
 });
 generateData();
