@@ -269,11 +269,11 @@ function getReplies(predicted) {
   for (let i = 0; i < canvases.length; i++) {
     predicts[i] = canvases[i].dataset.predict;
   }
-  // 短すぎる線は無視する
   if (predicted.klass != 1 && predicted.count < 15) {
+    // 短すぎる線は無視する
     predicted.klass = "";
-    // 画数不足は不正解とする
   } else if (predicted.kaku < kakusus[predicted.klass]) {
+    // 画数不足は不正解とする
     predicted.klass = "";
   }
   canvas.dataset.predict = predicted.klass;
