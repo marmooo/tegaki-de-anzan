@@ -32,6 +32,5 @@ importScripts(
 );
 
 let model;
-loadModel();
 
 self.addEventListener("message", loadModelAndPredict);
