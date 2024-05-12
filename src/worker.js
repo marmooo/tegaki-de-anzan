@@ -32,5 +32,4 @@ importScripts(
 );
 
 let model;
-
 self.addEventListener("message", loadModelAndPredict);
