@@ -1,4 +1,4 @@
-import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.0/+esm";
+import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.1/+esm";
 
 const countPanel = document.getElementById("countPanel");
 const infoPanel = document.getElementById("infoPanel");
