@@ -1,4 +1,5 @@
 import signaturePad from "https://cdn.jsdelivr.net/npm/signature_pad@5.1.1/+esm";
+import { createWorker } from "https://cdn.jsdelivr.net/npm/emoji-particle@0.0.4/+esm";
 
 const countPanel = document.getElementById("countPanel");
 const infoPanel = document.getElementById("infoPanel");
@@ -10,9 +11,12 @@ const canvasCache = document.createElement("canvas")
   .getContext("2d", { willReadFrequently: true });
 const pads = initSignaturePads(canvases);
 const gameTime = 180;
+const emojiParticle = initEmojiParticle();
+const maxParticleCount = 10;
 let gameTimer;
 let answers = new Array(3);
 let hinted = false;
+let consecutiveWins = 0;
 let correctCount = 0;
 let audioContext;
 const audioBufferCache = {};
@@ -85,6 +89,30 @@ function playAudio(name, volume) {
   gainNode.connect(audioContext.destination);
   sourceNode.connect(gainNode);
   sourceNode.start();
+}
+
+function initEmojiParticle() {
+  const canvas = document.createElement("canvas");
+  Object.assign(canvas.style, {
+    position: "fixed",
+    pointerEvents: "none",
+    top: "0px",
+    left: "0px",
+  });
+  canvas.width = document.documentElement.clientWidth;
+  canvas.height = document.documentElement.clientHeight;
+  document.body.prepend(canvas);
+
+  const offscreen = canvas.transferControlToOffscreen();
+  const worker = createWorker();
+  worker.postMessage({ type: "init", canvas: offscreen }, [offscreen]);
+
+  globalThis.addEventListener("resize", () => {
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    worker.postMessage({ type: "resize", width, height });
+  });
+  return { canvas, offscreen, worker };
 }
 
 function isEqual(arr1, arr2) {
@@ -189,6 +217,7 @@ function countdown() {
       infoPanel.classList.remove("d-none");
       playPanel.classList.remove("d-none");
       correctCount = 0;
+      consecutiveWins = 0;
       hinted = false;
       generateData();
       startGameTimer();
@@ -314,6 +343,7 @@ function predict(canvas, pos, kaku, count) {
 function showAnswer() {
   if (!hinted) {
     hinted = true;
+    consecutiveWins = 0;
     document.getElementById("num").textContent += answers.join("").trimStart();
     playAudio("incorrect", 0.3);
     setTimeout(() => {
@@ -328,7 +358,23 @@ worker.addEventListener("message", (event) => {
   const replies = getReplies(event.data);
   if (isEqual(answers, replies)) {
     playAudio("correct", 0.3);
-    if (!hinted) correctCount += 1;
+    if (!hinted) {
+      correctCount += 1;
+      consecutiveWins += 1;
+    }
+    if (consecutiveWins % 5 === 0) {
+      const particleCount = Math.ceil(consecutiveWins / 5);
+      for (let i = 0; i < Math.min(particleCount, maxParticleCount); i++) {
+        emojiParticle.worker.postMessage({
+          type: "spawn",
+          options: {
+            particleType: "popcorn",
+            originX: Math.random() * emojiParticle.canvas.width,
+            originY: Math.random() * emojiParticle.canvas.height,
+          },
+        });
+      }
+    }
     hinted = false;
     generateData();
   }
